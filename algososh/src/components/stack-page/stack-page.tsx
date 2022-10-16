@@ -11,25 +11,37 @@ import { Circle } from '../ui/circle/circle';
 export const StackPage: React.FC = () => {
   const stack = useRef(new Stack());
   const [inputValue, setInputValue] = useState('');
-  const [lastElementState, setLastElementState] = useState(
+  const [lastStackItemState, setLastStackItemState] = useState(
     ElementStates.Changing
   );
-  const [stackList, setStackList] = useState<string[]>(stack.current.elements);
+  const [stackItems, setStackItems] = useState<string[]>(stack.current.items);
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
 
+  const clearStack = () => {
+    stack.current.clear();
+    setStackItems(stack.current.items);
+  };
+
+  const deleteItem = () => {
+    setLastStackItemState(ElementStates.Changing);
+    setTimeout(() => {
+      stack.current.pop();
+      setStackItems([...stack.current.items]);
+      setLastStackItemState(ElementStates.Default);
+    }, DELAY);
+  };
+
   const addItem = (item: string) => {
-    // setIsLoading((prev) => ({ ...prev, add: true }));
-    setLastElementState(ElementStates.Changing);
+    setLastStackItemState(ElementStates.Changing);
     stack.current.push(item);
     console.log(stack);
-    setStackList([...stack.current.elements]);
+    setStackItems([...stack.current.items]);
     setInputValue('');
     setTimeout(() => {
-      setLastElementState(ElementStates.Default);
-      // setIsLoading((prev) => ({ ...prev, add: false }));
+      setLastStackItemState(ElementStates.Default);
     }, DELAY);
   };
 
@@ -47,35 +59,28 @@ export const StackPage: React.FC = () => {
         <Button
           text='Добавить'
           onClick={() => addItem(inputValue)}
-          // disabled={
-          //   !inputValue || stack.current.size >= stack.current.stackLimit
-          // }
-          // isLoader={isLoading.add}
         />
         <Button
           text='Удалить'
-          // onClick={deleteFromStack}
-          // disabled={isEmpty || isLoading.add}
-          // isLoader={isLoading.delete}
+          onClick={deleteItem}
         />
         </div>
         <Button
           text='Очистить'
-          // onClick={clearStack}
-          // disabled={isEmpty || isLoading.add || isLoading.delete}
+          onClick={clearStack}
         />
         </div>
         <ul className={`${styles['flex-wrapper']} ${styles['stack-items-container']} ${styles['list']}`}>
-        {stackList &&
-          stackList.map((el, idx) => (
-            <li key={idx}>
+        {stackItems &&
+          stackItems.map((item, index) => (
+            <li key={index}>
               <Circle
-                letter={el}
-                index={idx}
-                head={stack.current.lastIndex === idx ? 'top' : null}
+                letter={item}
+                index={index}
+                head={stack.current.lastIndex === index ? 'top' : null}
                 state={
-                  stack.current.lastIndex === idx
-                    ? lastElementState
+                  stack.current.lastIndex === index
+                    ? lastStackItemState
                     : ElementStates.Default
                 }
               />
