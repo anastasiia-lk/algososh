@@ -69,8 +69,8 @@ export const StackPage: React.FC = () => {
           text='Очистить'
           onClick={clearStack}
         />
-        </div>
-        <ul className={`${styles['flex-wrapper']} ${styles['stack-items-container']} ${styles['list']}`}>
+      </div>
+      <ul className={`${styles['flex-wrapper']} ${styles['stack-items-container']} ${styles['list']}`}>
         {stackItems &&
           stackItems.map((item, index) => (
             <li key={index}>
