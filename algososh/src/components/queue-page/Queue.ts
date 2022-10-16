@@ -42,11 +42,11 @@ export class Queue<T = string> implements IDataStorage<T> {
     return this.queue;
   }
 
-  get headIdx() {
+  get headIndex() {
     return this.head;
   }
 
-  get tailIdx() {
+  get tailIndex() {
     return this.tail;
   }
 
@@ -56,9 +56,5 @@ export class Queue<T = string> implements IDataStorage<T> {
 
   get isEmpty() {
     return this.length === 0;
-  }
-
-  get isFull() {
-    return this.length >= this.size;
   }
 }

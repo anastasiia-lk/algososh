@@ -23,8 +23,30 @@ export const QueuePage: React.FC = () => {
     setInputValue(event.target.value);
   };
 
+  const clearQueue = () => {
+    queue.current.clear();
+    setQueueItems(queue.current.items);
+  };
+
+  const deleteItem = () => {
+    if (queue.current.len === 1) {
+      setQueueState((prev) => ({ ...prev, tail: ElementStates.Changing }));
+    } else {
+      setQueueState((prev) => ({ ...prev, head: ElementStates.Changing }));
+    }
+
+    setTimeout(() => {
+      queue.current.pop();
+      setQueueItems(queue.current.items);
+      if (queue.current.len === 0) {
+        setQueueState((prev) => ({ ...prev, tail: ElementStates.Default }));
+      } else {
+        setQueueState((prev) => ({ ...prev, head: ElementStates.Default }));
+      }
+    }, SHORT_DELAY);
+  };
+
   const addItem = (item: string) => {
-    // setIsLoading((prev) => ({ ...prev, enq: true }));
     setQueueState((prev) => ({ ...prev, tail: ElementStates.Changing }));
 
     queue.current.push(item);
@@ -33,11 +55,10 @@ export const QueuePage: React.FC = () => {
     setInputValue('');
 
     setTimeout(() => {
-      // setIsLoading((prev) => ({ ...prev, enq: false }));
       setQueueState((prev) => ({ ...prev, tail: ElementStates.Default }));
     }, SHORT_DELAY);
   };
-  
+
   return (
     <SolutionLayout title="Очередь">
       <div className={`${styles['flex-wrapper']} ${styles['wrapper']}`}>
@@ -55,12 +76,12 @@ export const QueuePage: React.FC = () => {
         />
         <Button
           text='Удалить'
-          // onClick={deleteItem}
+          onClick={deleteItem}
         />
         </div>
         <Button
           text='Очистить'
-          // onClick={clearStack}
+          onClick={clearQueue}
         />
       </div>
       <ul className={`${styles['flex-wrapper']} ${styles['queue-items-container']} ${styles['list']}`}>
@@ -71,12 +92,12 @@ export const QueuePage: React.FC = () => {
                 letter={item}
                 index={index}
                 head={
-                  !queue.current.isEmpty && index === queue.current.headIdx
+                  !queue.current.isEmpty && index === queue.current.headIndex
                     ? HEAD
                     : null
                 }
                 tail={
-                  !queue.current.isEmpty && index === queue.current.tailIdx
+                  !queue.current.isEmpty && index === queue.current.tailIndex
                     ? TAIL
                     : null
                 }

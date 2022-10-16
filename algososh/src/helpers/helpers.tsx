@@ -41,9 +41,9 @@ export const getCircleState = (
 };
 
 export const getQueueCircleState = (list: Queue, idx: number, queueState: IStates) => {
-  if (idx === list.tailIdx) {
+  if (idx === list.tailIndex) {
     return queueState.tail;
-  } else if (idx === list.headIdx) {
+  } else if (idx === list.headIndex) {
     return queueState.head;
   } else {
     return ElementStates.Default;
