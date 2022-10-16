@@ -4,8 +4,8 @@ import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Circle } from '../ui/circle/circle';
 import { Button } from '../ui/button/button';
 import { Input } from '../ui/input/input';
-import {getArrayOfStringsToPrint } from '../../helpers/helpers'; 
-import {DELAY} from '../../helpers/constants';
+import { getArrayOfStringsToPrint } from '../../helpers/helpers'; 
+import { DELAY } from '../../helpers/constants';
 import { getCircleState } from '../../helpers/helpers';
 
 import styles from './string.module.css';
