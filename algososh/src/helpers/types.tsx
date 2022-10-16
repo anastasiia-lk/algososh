@@ -4,8 +4,13 @@ export enum ElementStates {
   Modified = "modified",
 }
 
-export interface IStack<T> {
+export interface IDataStorage<T> {
   push: (item: T) => void;
   pop: () => void;
   clear: () => void;
+}
+
+export interface IStates {
+head: ElementStates,
+tail: ElementStates,
 }

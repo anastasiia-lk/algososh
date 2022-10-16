@@ -1,6 +1,6 @@
-import { IStack } from "../../helpers/types";
+import { IDataStorage } from "../../helpers/types";
 
-export class Stack<T = string> implements IStack<T> {
+export class Stack<T = string> implements IDataStorage<T> {
   private stack: T[] = [];
 
   push = (item: T) => {

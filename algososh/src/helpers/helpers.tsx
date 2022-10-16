@@ -1,4 +1,5 @@
-import { ElementStates } from "./types";
+import { ElementStates, IStates } from "./types";
+import { Queue } from "../components/queue-page/Queue";
 
 export const swapArrayItems = (
   array: any[],
@@ -37,4 +38,14 @@ export const getCircleState = (
   if (idx < step || idx > len - 1 - step) return ElementStates.Modified;
   if (idx === step || idx === len - 1 - step) return ElementStates.Changing;
   if (idx > step && idx < len - 1 - step) return ElementStates.Default;
+};
+
+export const getQueueCircleState = (list: Queue, idx: number, queueState: IStates) => {
+  if (idx === list.tailIdx) {
+    return queueState.tail;
+  } else if (idx === list.headIdx) {
+    return queueState.head;
+  } else {
+    return ElementStates.Default;
+  }
 };
