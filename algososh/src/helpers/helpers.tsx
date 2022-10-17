@@ -1,5 +1,6 @@
 import { ElementStates, IStates } from "./types";
 import { Queue } from "../components/queue-page/Queue";
+import { FIBONACCI_INIT_ARRAY, FIBONACCI_INIT_MATRIX } from "./constants";
 
 export const swapArrayItems = (
   array: any[],
@@ -48,4 +49,17 @@ export const getQueueCircleState = (list: Queue, idx: number, queueState: IState
   } else {
     return ElementStates.Default;
   }
+};
+
+export const getFibonacciMatrix = (num: number) => {
+  const fibonacciArray = [0, 1];
+  const fibonacciMatrix = [[0], [0, 1]];
+  let i = 2;
+    while (i <= num) {
+    fibonacciArray.push(fibonacciArray[i - 2] + fibonacciArray[i - 1]);
+    fibonacciMatrix.push([...fibonacciArray]);
+    i++;
+    console.log(fibonacciMatrix);
+    }
+  return fibonacciMatrix;
 };
