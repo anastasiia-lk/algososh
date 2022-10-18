@@ -122,3 +122,121 @@ export function getAddToHeadMatrix<T extends string>(
 
   return matrix;
 }
+
+export function getAddToTailMatrix<T extends string>(
+  linkedList: List<T>,
+  item: T
+): Step<TElement> {
+  const matrix = [];
+
+  const list = getInitState(linkedList.toArray());
+
+  if (!list.length)
+  list.push({
+    ...elementTemplate,
+    head: { ...elementTemplate.head },
+    tail: { ...elementTemplate.tail },
+  });
+
+  const firstStep = list.map((el, idx, array) => {
+    if (idx === array.length - 1) {
+      return {
+        ...el,
+        head: {
+          ...el.head,
+          type: CIRCLE,
+          value: item,
+        },
+      };
+    }
+    return el;
+  });
+
+  linkedList.append(item);
+
+  const secondStep = getInitState(linkedList.toArray()).map(
+    (el, idx, array) => {
+      if (idx === array.length - 1) {
+        return {
+          ...el,
+          state: ElementStates.Modified,
+        };
+      }
+      return el;
+    }
+  );
+
+  const thirdStep = secondStep.map((el, idx, array) => {
+    if (idx === array.length - 1) {
+      return {
+        ...el,
+        state: ElementStates.Default,
+      };
+    }
+    return el;
+  });
+
+  matrix.push(firstStep, secondStep, thirdStep);
+
+  return matrix;
+}
+
+export function getDeleteHeadMatrix<T extends string>(
+  linkedList: List<T>
+): Step<TElement> {
+  const matrix = [];
+
+  const list = getInitState(linkedList.toArray());
+
+  const firstStep = list.map((el, idx) => {
+    if (idx === 0) {
+      return {
+        ...el,
+        value: '',
+        tail: {
+          ...el.tail,
+          type: CIRCLE,
+          value: el.value,
+        },
+      };
+    }
+    return el;
+  });
+
+  linkedList.deleteHead();
+
+  const secondStep = getInitState(linkedList.toArray());
+  matrix.push(firstStep, secondStep);
+
+  return matrix;
+}
+
+export function getDeleteTailMatrix<T extends string>(
+  linkedList: List<T>
+): Step<TElement> {
+  const matrix = [];
+
+  const list = getInitState(linkedList.toArray());
+
+  const firstStep = list.map((el, idx, array) => {
+    if (idx === array.length - 1) {
+      return {
+        ...el,
+        value: '',
+        tail: {
+          ...el.tail,
+          type: CIRCLE,
+          value: el.value,
+        },
+      };
+    }
+    return el;
+  });
+
+  linkedList.deleteTail();
+
+  const secondStep = getInitState(linkedList.toArray());
+  matrix.push(firstStep, secondStep);
+
+  return matrix;
+}

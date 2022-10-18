@@ -4,7 +4,7 @@ import { Input } from '../ui/input/input';
 import { Button } from '../ui/button/button';
 import styles from './list-page.module.css';
 import {List} from './List'
-import {getAddToHeadMatrix, getInitState} from '../../helpers/helpers'
+import {getAddToHeadMatrix, getInitState, getAddToTailMatrix, getDeleteHeadMatrix, getDeleteTailMatrix} from '../../helpers/helpers'
 import {TElement} from '../../helpers/types'
 import {DELAY, CIRCLE} from '../../helpers/constants'
 import { Circle } from '../ui/circle/circle';
@@ -24,7 +24,6 @@ export const ListPage: React.FC = () => {
   };
 
   const addToHead = (item: string) => {
-    // setIsLoading((prev) => ({ ...prev, addHead: true }));
     const matrix = getAddToHeadMatrix(linkedList.current, item);
     let step = 0;
     setList(matrix[step]);
@@ -34,11 +33,38 @@ export const ListPage: React.FC = () => {
         setList(matrix[step]);
       } else {
         clearInterval(timerId);
-        // setIsLoading((prev) => ({ ...prev, addHead: false }));
       }
     }, DELAY);
+  };
 
-    // setValueInput('');
+  const deleteHead = () => {
+    const matrix = getDeleteHeadMatrix(linkedList.current);
+    setList(matrix[0]);
+    setTimeout(() => {
+      setList(matrix[1]);
+    }, DELAY);
+  };
+
+  const addToTail = (item: string) => {
+    const matrix = getAddToTailMatrix(linkedList.current, item);
+    let step = 0;
+    setList(matrix[step]);
+    const timerId = setInterval(() => {
+      if (step < matrix.length - 1) {
+        step++;
+        setList(matrix[step]);
+      } else {
+        clearInterval(timerId);
+      }
+    }, DELAY);
+  };
+
+  const deleteTail = () => {
+    const matrix = getDeleteTailMatrix(linkedList.current);
+    setList(matrix[0]);
+    setTimeout(() => {
+      setList(matrix[1]);
+    }, DELAY);
   };
 
   return (
@@ -70,7 +96,7 @@ export const ListPage: React.FC = () => {
         <Button
           text='Добавить в tail'
           linkedList='small'
-          // onClick={() => addToTail(inputValue)}
+          onClick={() => addToTail(inputValue)}
           // disabled={
           //   !inputValue ||
           //   isLoading.addHead ||
@@ -85,7 +111,7 @@ export const ListPage: React.FC = () => {
         <Button
           text='Удалить из head'
           linkedList='small'
-          // onClick={deleteFromHead}
+          onClick={deleteHead}
           // disabled={
           //   !list.length ||
           //   isLoading.addHead ||
@@ -99,7 +125,7 @@ export const ListPage: React.FC = () => {
         <Button
           text='Удалить из tail'
           linkedList='small'
-          // onClick={deleteFromTail}
+          onClick={deleteTail}
           // disabled={
           //   !list.length ||
           //   isLoading.addHead ||
