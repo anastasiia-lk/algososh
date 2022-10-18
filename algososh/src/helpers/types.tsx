@@ -35,3 +35,8 @@ export type TElement = {
   tail: TCircle;
   state: ElementStates;
 };
+
+export type TSortElement = {
+  value: number;
+  state: ElementStates;
+};

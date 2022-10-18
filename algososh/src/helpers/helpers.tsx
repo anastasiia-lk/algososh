@@ -1,7 +1,9 @@
-import { ElementStates, IStates, Step, TElement, TCircle } from "./types";
+import { ElementStates, IStates, Step, TElement, TSortElement, TCircle } from "./types";
 import { Queue } from "../components/queue-page/Queue";
-import { elementTemplate, CIRCLE, TAIL, HEAD } from "./constants";
+import { elementTemplate, CIRCLE, TAIL, HEAD, DELAY } from "./constants";
 import {List} from '../components/list-page/List'
+import { MIN_ARR_LENGTH, MAX_ARR_LENGTH, MIN_ARR_ITEM_VALUE, MAX_ARR_ITEM_VALUE, Direction } from "./constants";
+import { SetStateAction } from 'react';
 
 export const swapArrayItems = (
   array: any[],
@@ -328,3 +330,130 @@ export function getDeleteByIndexMatrix<T extends string>(
 
   return matrix;
 }
+
+export const getArr = () => {
+  const arrLength = Math.floor(Math.random() * (MAX_ARR_LENGTH - MIN_ARR_LENGTH + 1)) + MIN_ARR_LENGTH;
+  const randomArr: TSortElement[] = [];
+  let randomNum: number;
+  while (randomArr.length < arrLength) {
+    randomNum = Math.floor(Math.random() * (MAX_ARR_ITEM_VALUE - MIN_ARR_ITEM_VALUE + 1)) + MIN_ARR_ITEM_VALUE;
+    if (!randomArr.some((el) => randomNum === el.value)) {
+      randomArr.push({ value: randomNum, state: ElementStates.Default });
+    }
+  }
+  return randomArr;
+};
+
+export const setDelay = (delay: number) => {
+  return new Promise((resolve) => setTimeout(() => resolve(null), delay));
+};
+
+const setElementsStateSelection = (
+  arr: TSortElement[],
+  idxI: number = arr.length,
+  idxJ: number = arr.length,
+  selectedIdx: number = arr.length
+) => {
+  let state: ElementStates;
+  const newArray = arr.map((el, idxEl) => {
+    if (idxEl === selectedIdx || idxEl === idxJ) {
+      state = ElementStates.Changing;
+    } else if (idxEl < idxI) {
+      state = ElementStates.Modified;
+    } else {
+      state = ElementStates.Default;
+    }
+    return {
+      ...el,
+      state,
+    };
+  });
+  return newArray;
+};
+
+export const selectionSort = async (
+  arr: TSortElement[],
+  direction: Direction,
+  setFn: React.Dispatch<SetStateAction<TSortElement[]>>
+) => {
+  const { length } = arr;
+  for (let i = 0; i < length - 1; i++) {
+    let selectedIdx = i;
+    if (direction === Direction.Ascending) {
+      for (let j = i + 1; j < length; j++) {
+        await setDelay(DELAY);
+        setFn(setElementsStateSelection(arr, i, j, selectedIdx));
+        if (arr[selectedIdx].value > arr[j].value) selectedIdx = j;
+      }
+    } else {
+      for (let j = i + 1; j < length; j++) {
+        await setDelay(DELAY);
+        setFn(setElementsStateSelection(arr, i, j, selectedIdx));
+        if (arr[selectedIdx].value < arr[j].value) selectedIdx = j;
+      }
+    }
+    if (arr[i].value !== arr[selectedIdx].value) {
+    const buf = arr[i];
+    arr[i] = arr[selectedIdx];
+    arr[selectedIdx] = buf;
+    }
+  }
+  await setDelay(DELAY);
+  setFn(setElementsStateSelection(arr));
+};
+
+const setElementsStateBubble = (
+  arr: TSortElement[],
+  idxJ: number = arr.length,
+  idxI: number = arr.length
+) => {
+  const { length } = arr;
+  let state: ElementStates;
+  const newArray = arr.map((el, idx) => {
+    if (idx === idxJ || idx === idxJ + 1) {
+      state = ElementStates.Changing;
+    } else if (idx > length - idxI - 1) {
+      state = ElementStates.Modified;
+    } else {
+      state = ElementStates.Default;
+    }
+    return {
+      ...el,
+      state,
+    };
+  });
+  return newArray;
+};
+
+export const bubbleSort = async (
+  arr: TSortElement[],
+  direction: Direction,
+  setFn: React.Dispatch<SetStateAction<TSortElement[]>>
+) => {
+  const { length } = arr;
+  for (let i = 0; i < length; i++) {
+    if (direction === Direction.Ascending) {
+      for (let j = 0; j < length - i - 1; j++) {
+        await setDelay(DELAY);
+        setFn(setElementsStateBubble(arr, j, i));
+        if (arr[j].value > arr[j + 1].value) {
+          const buf = arr[j];
+          arr[j] = arr[j+1];
+          arr[j+1] = buf;
+        }
+      }
+    } else {
+      for (let j = 0; j < length - i - 1; j++) {
+        await setDelay(DELAY);
+        setFn(setElementsStateBubble(arr, j, i));
+        if (arr[j].value < arr[j + 1].value) {
+          const buf = arr[j];
+          arr[j] = arr[j+1];
+          arr[j+1] = buf;
+        };
+      }
+    }
+  }
+  await setDelay(DELAY);
+  setFn(setElementsStateBubble(arr));
+};

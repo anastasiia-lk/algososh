@@ -114,59 +114,21 @@ export const ListPage: React.FC = () => {
           text='Добавить в head'
           linkedList='small'
           onClick={() => addToHead(inputValue)}
-          // disabled={
-          //   !inputValue ||
-          //   isLoading.addTail ||
-          //   isLoading.addByIdx ||
-          //   isLoading.delHead ||
-          //   isLoading.delTail ||
-          //   isLoading.delByIdx ||
-          //   list.length >= linkedList.current.getSizeLimit()
-          // }
-          // isLoader={isLoading.addHead}
         />
         <Button
           text='Добавить в tail'
           linkedList='small'
           onClick={() => addToTail(inputValue)}
-          // disabled={
-          //   !inputValue ||
-          //   isLoading.addHead ||
-          //   isLoading.addByIdx ||
-          //   isLoading.delHead ||
-          //   isLoading.delTail ||
-          //   isLoading.delByIdx ||
-          //   list.length >= linkedList.current.getSizeLimit()
-          // }
-          // isLoader={isLoading.addTail}
         />
         <Button
           text='Удалить из head'
           linkedList='small'
           onClick={deleteHead}
-          // disabled={
-          //   !list.length ||
-          //   isLoading.addHead ||
-          //   isLoading.addTail ||
-          //   isLoading.delTail ||
-          //   isLoading.addByIdx ||
-          //   isLoading.delByIdx
-          // }
-          // isLoader={isLoading.delHead}
         />
         <Button
           text='Удалить из tail'
           linkedList='small'
           onClick={deleteTail}
-          // disabled={
-          //   !list.length ||
-          //   isLoading.addHead ||
-          //   isLoading.addTail ||
-          //   isLoading.delHead ||
-          //   isLoading.addByIdx ||
-          //   isLoading.delByIdx
-          // }
-          // isLoader={isLoading.delTail}
         />
         <Input
           value={inputIndex}
@@ -179,32 +141,11 @@ export const ListPage: React.FC = () => {
           text='Добавить по индексу'
           linkedList='big'
           onClick={() => addByIndex(inputValue, +inputIndex)}
-          // disabled={
-          //   !inputValue ||
-          //   !inputIndex ||
-          //   isLoading.addHead ||
-          //   isLoading.addTail ||
-          //   isLoading.delHead ||
-          //   isLoading.addTail ||
-          //   isLoading.delByIdx ||
-          //   list.length >= linkedList.current.getSizeLimit()
-          // }
-          // isLoader={isLoading.addByIdx}
         />
         <Button
           text='Удалить по индексу'
           linkedList='big'
           onClick={() => deleteByIndex(+inputIndex)}
-          // disabled={
-          //   !inputIndex ||
-          //   !list.length ||
-          //   isLoading.addHead ||
-          //   isLoading.addTail ||
-          //   isLoading.addByIdx ||
-          //   isLoading.delHead ||
-          //   isLoading.delTail
-          // }
-          // isLoader={isLoading.delByIdx}
         />
       </div>
       <ul className={`${styles['flex-wrapper']} ${styles['list-items-container']} ${styles['list']}`}>
