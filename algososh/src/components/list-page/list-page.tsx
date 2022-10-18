@@ -4,7 +4,7 @@ import { Input } from '../ui/input/input';
 import { Button } from '../ui/button/button';
 import styles from './list-page.module.css';
 import {List} from './List'
-import {getAddToHeadMatrix, getInitState, getAddToTailMatrix, getDeleteHeadMatrix, getDeleteTailMatrix} from '../../helpers/helpers'
+import {getAddToHeadMatrix, getInitState, getAddToTailMatrix, getDeleteHeadMatrix, getDeleteTailMatrix, getAddByIndexMatrix, getDeleteByIndexMatrix} from '../../helpers/helpers'
 import {TElement} from '../../helpers/types'
 import {DELAY, CIRCLE} from '../../helpers/constants'
 import { Circle } from '../ui/circle/circle';
@@ -21,6 +21,10 @@ export const ListPage: React.FC = () => {
 
   const inputValueOnChange = (event: ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
+  };
+
+  const inputIndexOnChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    setInputIndex(event.target.value);
   };
 
   const addToHead = (item: string) => {
@@ -64,6 +68,34 @@ export const ListPage: React.FC = () => {
     setList(matrix[0]);
     setTimeout(() => {
       setList(matrix[1]);
+    }, DELAY);
+  };
+
+  const addByIndex = (item: string, idx: number) => {
+    const matrix = getAddByIndexMatrix(linkedList.current, item, idx);
+    let step = 0;
+    setList(matrix[step]);
+    const timerId = setInterval(() => {
+      if (step < matrix.length - 1) {
+        step++;
+        setList(matrix[step]);
+      } else {
+        clearInterval(timerId);
+      }
+    }, DELAY);
+  };
+
+  const deleteByIndex = (idx: number) => {
+    const matrix = getDeleteByIndexMatrix(linkedList.current, idx);
+    let step = 0;
+    setList(matrix[step]);
+    const timerId = setInterval(() => {
+      if (step < matrix.length - 1) {
+        step++;
+        setList(matrix[step]);
+      } else {
+        clearInterval(timerId);
+      }
     }, DELAY);
   };
 
@@ -141,12 +173,12 @@ export const ListPage: React.FC = () => {
           extraClass={`${styles['input-width']}`}
           placeholder='Введите индекс'
           type='number'
-          // onChange={inputIndexOnChangeHandler}
+          onChange={inputIndexOnChangeHandler}
         />
         <Button
           text='Добавить по индексу'
           linkedList='big'
-          // onClick={() => addByIndex(inputValue, +inputIndex)}
+          onClick={() => addByIndex(inputValue, +inputIndex)}
           // disabled={
           //   !inputValue ||
           //   !inputIndex ||
@@ -162,7 +194,7 @@ export const ListPage: React.FC = () => {
         <Button
           text='Удалить по индексу'
           linkedList='big'
-          // onClick={() => deleteByIndex(+inputIndex)}
+          onClick={() => deleteByIndex(+inputIndex)}
           // disabled={
           //   !inputIndex ||
           //   !list.length ||

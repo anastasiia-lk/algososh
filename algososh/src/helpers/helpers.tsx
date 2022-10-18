@@ -240,3 +240,91 @@ export function getDeleteTailMatrix<T extends string>(
 
   return matrix;
 }
+
+export function getAddByIndexMatrix<T extends string>(
+  linkedList: List<T>,
+  item: T,
+  index: number
+): Step<TElement> {
+  const matrix = [];
+
+  const list = getInitState(linkedList.toArray());
+
+  for (let i = 0; i <= index; i++) {
+    const step = list.map((el, idx) => {
+      if (i === idx) {
+        return {
+          ...el,
+          head: {
+            ...el.head,
+            type: CIRCLE,
+            value: item,
+          },
+        };
+      } else if (idx < i) {
+        return {
+          ...el,
+          state: ElementStates.Changing,
+        };
+      }
+      return el;
+    });
+    matrix.push(step);
+  }
+
+  linkedList.addByIndex(item, index);
+
+  const preLastStep = getInitState(linkedList.toArray());
+  const insertedEl = { ...preLastStep[index] };
+  insertedEl.state = ElementStates.Modified;
+  preLastStep[index] = { ...insertedEl };
+
+  const lastStep = [...preLastStep];
+  insertedEl.state = ElementStates.Default;
+  lastStep[index] = { ...insertedEl };
+
+  matrix.push(preLastStep, lastStep);
+
+  return matrix;
+}
+
+export function getDeleteByIndexMatrix<T extends string>(
+  linkedList: List<T>,
+  index: number
+): Step<TElement> {
+  const matrix = [];
+
+  const list = getInitState(linkedList.toArray());
+
+  for (let i = 0; i <= index; i++) {
+    const step = list.map((el, idx) => {
+      if (idx === i) {
+        return {
+          ...el,
+          state: ElementStates.Changing,
+        };
+      }
+      return el;
+    });
+    matrix.push(step);
+  }
+
+  const preLastStep = [...matrix[matrix.length - 1]];
+  const deletedEl = { ...preLastStep[index] };
+  deletedEl.tail = {
+    ...deletedEl.tail,
+    value: deletedEl.value,
+    type: CIRCLE,
+  };
+  deletedEl.value = '';
+  deletedEl.state = ElementStates.Default;
+  preLastStep[index] = deletedEl;
+
+  linkedList.deleteByIndex(index);
+
+  const lastStep = getInitState(linkedList.toArray());
+
+  matrix.push(preLastStep, lastStep);
+
+  return matrix;
+}
