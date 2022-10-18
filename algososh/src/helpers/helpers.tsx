@@ -1,6 +1,7 @@
-import { ElementStates, IStates } from "./types";
+import { ElementStates, IStates, Step, TElement, TCircle } from "./types";
 import { Queue } from "../components/queue-page/Queue";
-import { FIBONACCI_INIT_ARRAY, FIBONACCI_INIT_MATRIX } from "./constants";
+import { elementTemplate, CIRCLE, TAIL, HEAD } from "./constants";
+import {List} from '../components/list-page/List'
 
 export const swapArrayItems = (
   array: any[],
@@ -63,3 +64,61 @@ export const getFibonacciMatrix = (num: number) => {
     }
   return fibonacciMatrix;
 };
+
+export function getInitState(list: string[]): TElement[] {
+  const listToRender = list.map((el, idx) => {
+    return {
+      ...elementTemplate,
+      value: el,
+      head: {
+        ...elementTemplate.head,
+        value: idx === 0 ? HEAD : '',
+      },
+      tail: {
+        ...elementTemplate.tail,
+        value: idx === list.length - 1 ? TAIL : '',
+      }
+    };
+  });
+  return listToRender;
+}
+
+export function getAddToHeadMatrix<T extends string>(
+  linkedList: List<T>,
+  item: T
+): Step<TElement> {
+  const matrix = [];
+
+  const list: TElement[] = getInitState(linkedList.toArray());
+  if (!list.length)
+    list.push({
+      ...elementTemplate,
+      head: { ...elementTemplate.head },
+      tail: { ...elementTemplate.tail },
+    });
+
+  const firstStep = [];
+  let firstElement = { ...list[0] };
+  let firstElementHead = { ...firstElement.head };
+  firstElementHead.type = CIRCLE;
+  firstElementHead.value = item;
+  firstElement.head = firstElementHead;
+
+  firstStep.push(firstElement, ...list.slice(1));
+
+  linkedList.prepend(item);
+
+  const secondStep = getInitState(linkedList.toArray());
+  firstElement = { ...secondStep[0] };
+  firstElement.state = ElementStates.Modified;
+  secondStep[0] = firstElement;
+
+  const thirdStep = [...secondStep];
+  firstElement = { ...thirdStep[0] };
+  firstElement.state = ElementStates.Default;
+  thirdStep[0] = firstElement;
+
+  matrix.push(firstStep, secondStep, thirdStep);
+
+  return matrix;
+}
