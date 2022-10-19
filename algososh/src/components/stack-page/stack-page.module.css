@@ -1,0 +1,31 @@
+.list {
+  list-style-type: none;
+}
+
+.flex-wrapper {
+  display: flex;
+}
+
+.wrapper {
+  max-width: 829px;
+  gap: 12px;
+  margin: 0 auto 80px;
+}
+
+.container {
+  max-width: 630px;
+  gap: 12px;
+  margin-right: 80px;
+}
+
+.input {
+  width: 377px;
+}
+
+.stack-items-container {
+  max-width: 944px;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 78px 16px;
+  margin: 0 auto;
+}

@@ -1,0 +1,30 @@
+.list {
+  list-style-type: none;
+}
+
+.flex-wrapper {
+  display: flex;
+}
+
+.wrapper {
+  flex-wrap: wrap;
+  gap: 38px 12px;
+  width: 952px;
+  margin: 0 auto 120px;
+}
+
+.input-width {
+  width: 204px;
+}
+
+.list-items-container {
+  display: flex;
+  justify-content: center;
+  column-gap: 16px;
+}
+
+.items {
+  display: flex;
+  column-gap: 16px;
+  align-items: center;
+}
