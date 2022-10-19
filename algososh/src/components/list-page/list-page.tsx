@@ -141,11 +141,14 @@ export const ListPage: React.FC = () => {
           text='Добавить по индексу'
           linkedList='big'
           onClick={() => addByIndex(inputValue, +inputIndex)}
+          disabled={Number(inputIndex) > linkedList.current.getSizeLimit() || 
+            Number(inputIndex) > list.length}
         />
         <Button
           text='Удалить по индексу'
           linkedList='big'
           onClick={() => deleteByIndex(+inputIndex)}
+          disabled={Number(inputIndex) > list.length - 1 || list.length === 1}
         />
       </div>
       <ul className={`${styles['flex-wrapper']} ${styles['list-items-container']} ${styles['list']}`}>
