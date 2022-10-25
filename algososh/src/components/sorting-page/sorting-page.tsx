@@ -2,7 +2,7 @@ import React, { ChangeEvent, useRef, useState, useEffect } from 'react';
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { RadioInput } from '../ui/radio-input/radio-input';
 import { Button } from '../ui/button/button';
-import {Direction} from '../../helpers/constants'
+import {Direction, DELAY} from '../../helpers/constants'
 import styles from './sorting-page.module.css';
 import {TSortElement} from '../../helpers/types'
 import {getArr, selectionSort, bubbleSort} from '../../helpers/helpers'
@@ -11,6 +11,8 @@ import {Column} from '../ui/column/column'
 export const SortingPage: React.FC = () => {
   const [arr, setArr] = useState<TSortElement[]>([]);
   const [isChecked, setIsChecked] = useState(true);
+  const [isDescLoading, setIsDescLoading] = useState(false);
+  const [isAscLoading, setIsAscLoading] = useState(false);
   const onChange = () => {
     setIsChecked((prev) => !prev);
   };
@@ -24,19 +26,57 @@ export const SortingPage: React.FC = () => {
   };
 
   const ascSort = async () => {
-    if (isChecked) {
-      await selectionSort(arr, Direction.Ascending, setArr);
-    } else {
-      await bubbleSort(arr, Direction.Ascending, setArr);
-    }
+    setIsAscLoading(true);
+
+    const matrix = isChecked
+      ? selectionSort(arr, Direction.Ascending)
+      : bubbleSort(arr, Direction.Ascending);
+
+    if (!matrix) return setIsAscLoading(false);
+
+    let step = 0;
+    setArr(matrix[step]);
+
+    const timerId = setInterval(() => {
+      if (step < matrix.length - 1) {
+        step++;
+        setArr(matrix[step]);
+      } else {
+        clearInterval(timerId);
+        setIsAscLoading(false);
+      }
+    }, DELAY);
   };
 
-  const descSort = async () => {
-    if (isChecked) {
-      await selectionSort(arr, Direction.Descending, setArr);
-    } else {
-      await bubbleSort(arr, Direction.Descending, setArr);
-    }
+  // const descSort = async () => {
+  //   if (isChecked) {
+  //     await selectionSort(arr, Direction.Descending, setArr);
+  //   } else {
+  //     await bubbleSort(arr, Direction.Descending, setArr);
+  //   }
+  // };
+
+  const descSort = () => {
+    setIsDescLoading(true);
+
+    const matrix = isChecked
+      ? selectionSort(arr, Direction.Descending)
+      : bubbleSort(arr, Direction.Descending);
+
+    if (!matrix) return setIsDescLoading(false);
+
+    let step = 0;
+    setArr(matrix[step]);
+
+    const timerId = setInterval(() => {
+      if (step < matrix.length - 1) {
+        step++;
+        setArr(matrix[step]);
+      } else {
+        clearInterval(timerId);
+        setIsDescLoading(false);
+      }
+    }, DELAY);
   };
 
   return (

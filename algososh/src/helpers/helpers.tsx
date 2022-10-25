@@ -371,36 +371,73 @@ const setElementsStateSelection = (
   return newArray;
 };
 
-export const selectionSort = async (
+export const selectionSort = (
   arr: TSortElement[],
-  direction: Direction,
-  setFn: React.Dispatch<SetStateAction<TSortElement[]>>
-) => {
+  direction: Direction
+): TSortElement[][] | null => {
   const { length } = arr;
+  if (!length) return null;
+
+  const sortMatrix: TSortElement[][] = [];
+  let stepArray: TSortElement[];
+
   for (let i = 0; i < length - 1; i++) {
     let selectedIdx = i;
-    if (direction === Direction.Ascending) {
-      for (let j = i + 1; j < length; j++) {
-        await setDelay(DELAY);
-        setFn(setElementsStateSelection(arr, i, j, selectedIdx));
-        if (arr[selectedIdx].value > arr[j].value) selectedIdx = j;
-      }
-    } else {
-      for (let j = i + 1; j < length; j++) {
-        await setDelay(DELAY);
-        setFn(setElementsStateSelection(arr, i, j, selectedIdx));
-        if (arr[selectedIdx].value < arr[j].value) selectedIdx = j;
-      }
+
+    for (let j = i + 1; j < length; j++) {
+      stepArray = setElementsStateSelection(arr, i, j, selectedIdx);
+      sortMatrix.push(stepArray);
+      if (
+        direction === Direction.Ascending
+          ? arr[selectedIdx].value > arr[j].value
+          : arr[selectedIdx].value < arr[j].value
+      )
+        selectedIdx = j;
     }
+
     if (arr[i].value !== arr[selectedIdx].value) {
-    const buf = arr[i];
-    arr[i] = arr[selectedIdx];
-    arr[selectedIdx] = buf;
-    }
+          const buf = arr[i];
+          arr[i] = arr[selectedIdx];
+          arr[selectedIdx] = buf;
+          }
   }
-  await setDelay(DELAY);
-  setFn(setElementsStateSelection(arr));
+  stepArray = setElementsStateSelection(arr);
+  sortMatrix.push(stepArray);
+
+  return sortMatrix;
 };
+
+
+// export const selectionSort = async (
+//   arr: TSortElement[],
+//   direction: Direction,
+//   setFn: React.Dispatch<SetStateAction<TSortElement[]>>
+// ) => {
+//   const { length } = arr;
+//   for (let i = 0; i < length - 1; i++) {
+//     let selectedIdx = i;
+//     if (direction === Direction.Ascending) {
+//       for (let j = i + 1; j < length; j++) {
+//         await setDelay(DELAY);
+//         setFn(setElementsStateSelection(arr, i, j, selectedIdx));
+//         if (arr[selectedIdx].value > arr[j].value) selectedIdx = j;
+//       }
+//     } else {
+//       for (let j = i + 1; j < length; j++) {
+//         await setDelay(DELAY);
+//         setFn(setElementsStateSelection(arr, i, j, selectedIdx));
+//         if (arr[selectedIdx].value < arr[j].value) selectedIdx = j;
+//       }
+//     }
+//     if (arr[i].value !== arr[selectedIdx].value) {
+//     const buf = arr[i];
+//     arr[i] = arr[selectedIdx];
+//     arr[selectedIdx] = buf;
+//     }
+//   }
+//   await setDelay(DELAY);
+//   setFn(setElementsStateSelection(arr));
+// };
 
 const setElementsStateBubble = (
   arr: TSortElement[],
@@ -425,35 +462,66 @@ const setElementsStateBubble = (
   return newArray;
 };
 
-export const bubbleSort = async (
+export const bubbleSort = (
   arr: TSortElement[],
-  direction: Direction,
-  setFn: React.Dispatch<SetStateAction<TSortElement[]>>
-) => {
+  direction: Direction
+): TSortElement[][] | null => {
   const { length } = arr;
+  if (!length) return null;
+
+  let buf: any = {};
+  const sortMatrix: TSortElement[][] = [];
+  let stepArray: TSortElement[];
+
   for (let i = 0; i < length; i++) {
-    if (direction === Direction.Ascending) {
-      for (let j = 0; j < length - i - 1; j++) {
-        await setDelay(DELAY);
-        setFn(setElementsStateBubble(arr, j, i));
-        if (arr[j].value > arr[j + 1].value) {
-          const buf = arr[j];
+    for (let j = 0; j < length - i - 1; j++) {
+      stepArray = setElementsStateBubble(arr, j, i);
+      sortMatrix.push(stepArray);
+      if (
+        direction === Direction.Ascending
+          ? arr[j].value > arr[j + 1].value
+          : arr[j].value < arr[j + 1].value
+      )
+          buf = arr[j];
           arr[j] = arr[j+1];
           arr[j+1] = buf;
-        }
-      }
-    } else {
-      for (let j = 0; j < length - i - 1; j++) {
-        await setDelay(DELAY);
-        setFn(setElementsStateBubble(arr, j, i));
-        if (arr[j].value < arr[j + 1].value) {
-          const buf = arr[j];
-          arr[j] = arr[j+1];
-          arr[j+1] = buf;
-        };
-      }
     }
   }
-  await setDelay(DELAY);
-  setFn(setElementsStateBubble(arr));
+  stepArray = setElementsStateBubble(arr);
+  sortMatrix.push(setElementsStateBubble(arr));
+
+  return sortMatrix;
 };
+
+// export const bubbleSort = async (
+//   arr: TSortElement[],
+//   direction: Direction,
+//   setFn: React.Dispatch<SetStateAction<TSortElement[]>>
+// ) => {
+//   const { length } = arr;
+//   for (let i = 0; i < length; i++) {
+//     if (direction === Direction.Ascending) {
+//       for (let j = 0; j < length - i - 1; j++) {
+//         await setDelay(DELAY);
+//         setFn(setElementsStateBubble(arr, j, i));
+//         if (arr[j].value > arr[j + 1].value) {
+//           const buf = arr[j];
+//           arr[j] = arr[j+1];
+//           arr[j+1] = buf;
+//         }
+//       }
+//     } else {
+//       for (let j = 0; j < length - i - 1; j++) {
+//         await setDelay(DELAY);
+//         setFn(setElementsStateBubble(arr, j, i));
+//         if (arr[j].value < arr[j + 1].value) {
+//           const buf = arr[j];
+//           arr[j] = arr[j+1];
+//           arr[j+1] = buf;
+//         };
+//       }
+//     }
+//   }
+//   await setDelay(DELAY);
+//   setFn(setElementsStateBubble(arr));
+// };
