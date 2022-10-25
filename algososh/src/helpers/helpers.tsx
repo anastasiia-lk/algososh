@@ -462,6 +462,16 @@ const setElementsStateBubble = (
   return newArray;
 };
 
+export const swap = (
+  arr: any[],
+  firstIndex: number,
+  secondIndex: number
+): void => {
+  const tmp = arr[firstIndex];
+  arr[firstIndex] = arr[secondIndex];
+  arr[secondIndex] = tmp;
+};
+
 export const bubbleSort = (
   arr: TSortElement[],
   direction: Direction
@@ -469,7 +479,6 @@ export const bubbleSort = (
   const { length } = arr;
   if (!length) return null;
 
-  let buf: any = {};
   const sortMatrix: TSortElement[][] = [];
   let stepArray: TSortElement[];
 
@@ -482,9 +491,7 @@ export const bubbleSort = (
           ? arr[j].value > arr[j + 1].value
           : arr[j].value < arr[j + 1].value
       )
-          buf = arr[j];
-          arr[j] = arr[j+1];
-          arr[j+1] = buf;
+        swap(arr, j, j + 1);
     }
   }
   stepArray = setElementsStateBubble(arr);
