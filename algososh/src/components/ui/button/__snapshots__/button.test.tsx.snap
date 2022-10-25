@@ -162,3 +162,53 @@ exports[`Тестирование_компонента_Button Snapshot_отри�
   </p>
 </button>
 `;
+
+exports[`Тестирование_компонента_Button snapshot_отрисовка_заблокированной_кнопки 1`] = `
+<button
+  className="text text_type_button text_color_primary button undefined false "
+  disabled={true}
+  type="button"
+>
+  <p
+    className="text undefined"
+  />
+</button>
+`;
+
+exports[`Тестирование_компонента_Button snapshot_отрисовка_кнопки_без_текста 1`] = `
+<button
+  className="text text_type_button text_color_primary button undefined false "
+  type="button"
+>
+  <p
+    className="text undefined"
+  />
+</button>
+`;
+
+exports[`Тестирование_компонента_Button snapshot_отрисовка_кнопки_с_индикацией_загрузки 1`] = `
+<button
+  className="text text_type_button text_color_primary button undefined loader "
+  disabled={true}
+  type="button"
+>
+  <img
+    alt="Загрузка."
+    className="loader_icon"
+    src="loader.svg"
+  />
+</button>
+`;
+
+exports[`Тестирование_компонента_Button snapshot_отрисовка_кнопки_с_текстом 1`] = `
+<button
+  className="text text_type_button text_color_primary button undefined false "
+  type="button"
+>
+  <p
+    className="text undefined"
+  >
+    Button
+  </p>
+</button>
+`;
