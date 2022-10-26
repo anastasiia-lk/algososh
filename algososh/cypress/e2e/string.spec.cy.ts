@@ -1,9 +1,9 @@
-describe('Страница "Строка"', () => {
+describe('Тестирование_работы_страницы_"строка"', () => {
   before(() => {
     cy.visit('http://localhost:3000/recursion');
   });
 
-  it('если_в_инпуте_пусто_то_кнопка_добавления_недоступна', () => {
+  it('если_в_инпуте_пусто_то_кнопка_недоступна', () => {
     cy.get('input').should('have.value', '');
     cy.get('button').last().as('reverseBtn');
     cy.get('@reverseBtn').should('be.disabled');

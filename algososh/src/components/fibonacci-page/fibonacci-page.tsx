@@ -25,6 +25,7 @@ export const FibonacciPage: React.FC = () => {
         iteration++;
       } else {
         clearInterval(timerId);
+        setInputValue('');
       }
     }, SHORT_DELAY);
   }, [inputValue]);
@@ -44,6 +45,7 @@ export const FibonacciPage: React.FC = () => {
           text='Расчитать'
           onClick={onClick}
           extraClass={styles.btn}
+          disabled={!inputValue}
         />
         </div>
         <ul
