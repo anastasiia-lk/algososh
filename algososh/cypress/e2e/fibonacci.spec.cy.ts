@@ -17,7 +17,7 @@ describe('Тестирование_работы_страницы_"последо
     cy.clock();
     cy.get('input').type('3');
     cy.get('button').last().click();
-    cy.tick(1000);
+    cy.tick(500);
     cy.get('li')
       .should('have.length', '1')
       .each(($el, idx) => {
@@ -28,7 +28,7 @@ describe('Тестирование_работы_страницы_"последо
           });
       });
 
-    cy.tick(1000);
+    cy.tick(500);
 
     cy.get('li')
       .should('have.length', '2')
@@ -40,7 +40,7 @@ describe('Тестирование_работы_страницы_"последо
           });
       });
 
-    cy.tick(1000);
+    cy.tick(500);
 
     cy.get('li')
       .should('have.length', '3')
@@ -52,7 +52,7 @@ describe('Тестирование_работы_страницы_"последо
           });
       });
 
-    cy.tick(1000);
+    cy.tick(500);
 
     cy.get('li')
       .should('have.length', '4')
