@@ -38,6 +38,7 @@ export const StringComponent: React.FC = () => {
         iterationNumber++;
       } else {
         clearInterval(timerId);
+        setInputValue('');
       }
     }, DELAY);
   }, [inputValue]);
@@ -57,6 +58,7 @@ export const StringComponent: React.FC = () => {
         text='Развернуть'
         linkedList='small'
         onClick={onClick}
+        disabled={!inputValue}
       />
     </div>
     <ul className={`${styles['flex-wrapper']} ${styles['letters-wrapper']} ${styles['list']}`}>
