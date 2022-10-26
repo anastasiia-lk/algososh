@@ -16,76 +16,68 @@ describe('Тестирование_работы_страницы_"стек"', ()
     cy.get('@addBtn').should('be.disabled');
   });
 
-  // it('элемент добавляется корректно', () => {
-  //   cy.clock();
-  //   cy.get('input').type('3');
-  //   cy.get('button').contains('Добавить').parent().click();
+  it('правильность_добавления_элемента_в_стек', () => {
+    cy.clock();
+    cy.get('input').type('7');
+    cy.get('button').contains('Добавить').parent().click();
 
-  //   cy.get('[class*=circle_content]').within(() => {
-  //     cy.get('[class*=circle_circle]').should(
-  //       'have.css',
-  //       'border',
-  //       '4px solid rgb(210, 82, 225)'
-  //     );
-  //     cy.get('[class*=circle_string]').should('have.text', 'top');
-  //     cy.get('[class*=circle_letter]').should('have.text', '3');
-  //     cy.get('[class*=circle_index]').should('have.text', '0');
-  //   });
+    cy.get('[class*=circle_content]').within(() => {
+      cy.get('[class*=circle_circle]').should(
+        'have.css',
+        'border',
+        '4px solid rgb(210, 82, 225)'
+      );
+      cy.get('[class*=circle_string]').should('have.text', 'top');
+      cy.get('[class*=circle_letter]').should('have.text', '7');
+      cy.get('[class*=circle_index]').should('have.text', '0');
+    });
 
-  //   cy.tick(1000);
+    cy.tick(1000);
 
-  //   cy.get('[class*=circle_content]').within(() => {
-  //     cy.get('[class*=circle_circle]').should(
-  //       'have.css',
-  //       'border',
-  //       '4px solid rgb(0, 50, 255)'
-  //     );
-  //   });
-  // });
+    cy.get('[class*=circle_content]').within(() => {
+      cy.get('[class*=circle_circle]').should(
+        'have.css',
+        'border',
+        '4px solid rgb(0, 50, 255)'
+      );
+    });
+  });
 
-  // it('элемент удаляется корректно', () => {
-  //   cy.clock();
-  //   cy.get('button')
-  //     .contains('Удалить')
-  //     .parent()
-  //     .as('delBtn')
-  //     .should('be.disabled');
-  //   cy.get('input').type('3');
-  //   cy.get('button').contains('Добавить').parent().as('addBtn').click();
-  //   cy.tick(1000);
-  //   cy.get('input').type('4');
-  //   cy.get('@addBtn').click();
-  //   cy.tick(1000);
-  //   cy.get('li').as('list').should('have.length', '2');
-  //   cy.get('@delBtn').should('be.enabled').click();
-  //   cy.get('@list').within(() => {
-  //     cy.get('[class*=circle_circle]')
-  //       .last()
-  //       .should('have.css', 'border', '4px solid rgb(210, 82, 225)');
-  //   });
-  //   cy.tick(1000);
-  //   cy.get('@list').should('have.length', 1);
-  // });
+  it('правильность_удаления_элемента_из_стека', () => {
+    cy.clock();
+    cy.get('button')
+      .contains('Удалить')
+      .parent()
+      .as('delBtn')
+    cy.get('input').type('7');
+    cy.get('button').contains('Добавить').parent().as('addBtn').click();
+    cy.tick(1000);
+    cy.get('li').as('list').should('have.length', '1');
+    cy.get('@delBtn').should('be.enabled').click();
+    cy.get('@list').within(() => {
+      cy.get('[class*=circle_circle]')
+        .last()
+        .should('have.css', 'border', '4px solid rgb(210, 82, 225)');
+    });
+    cy.tick(1000);
+    cy.get('@list').should('have.length', 0);
+  });
 
-  // it('поведение кнопки "Очистить" корректно', () => {
-  //   cy.clock();
-  //   cy.get('button')
-  //     .contains('Очистить')
-  //     .parent()
-  //     .as('clearBtn')
-  //     .should('be.disabled');
-  //   cy.get('button').contains('Добавить').parent().as('addBtn');
-  //   cy.get('input').type('1');
-  //   cy.get('@addBtn').click();
-  //   cy.tick(1000);
-  //   cy.get('input').type('2');
-  //   cy.get('@addBtn').click();
-  //   cy.tick(1000);
-  //   cy.get('input').type('3');
-  //   cy.get('@addBtn').click();
-  //   cy.tick(1000);
-  //   cy.get('ul').as('list').should('not.be.empty');
-  //   cy.get('@clearBtn').click();
-  //   cy.get('@list').should('be.empty');
-  // });
+  it('проверка_поведения_кнопки_"очистить"', () => {
+    cy.clock();
+    cy.get('button')
+      .contains('Очистить')
+      .parent()
+      .as('clBtn')
+    cy.get('button').contains('Добавить').parent().as('addBtn');
+    cy.get('input').type('7');
+    cy.get('@addBtn').click();
+    cy.tick(1000);
+    cy.get('input').type('9');
+    cy.get('@addBtn').click();
+    cy.tick(1000);
+    cy.get('ul').as('list').should('not.be.empty');
+    cy.get('@clBtn').click();
+    cy.get('@list').should('be.empty');
+  });
 });
