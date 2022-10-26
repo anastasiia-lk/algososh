@@ -4,7 +4,7 @@ describe('Тестирование_работы_страницы_"список"'
   });
 
   describe('если_в_инпуте_пусто_то_кнопки_недоступны', () => {
-    it('если_в_инпуте_пусто_то_кнопка_недоступна_"добавить_в_head"_"добавить_в_tail"_недоступна', () => {
+    it('"добавить_в_head"_и_"добавить_в_tail"', () => {
       cy.get('input[placeholder="Введите значение"]')
         .as('valueInput')
         .should('have.value', '');
@@ -26,7 +26,7 @@ describe('Тестирование_работы_страницы_"список"'
       cy.get('@addTailBtn').should('be.disabled');
     });
 
-    it('если_в_инпуте_пусто_то_кнопка_недоступна_"добавить_по_индексу"_"удалить_по_индексу"_недоступна', () => {
+    it('"добавить_по_индексу"_и_"удалить_по_индексу"', () => {
       cy.get('input[placeholder="Введите значение"]')
         .as('valueInput')
         .should('have.value', '');
@@ -57,177 +57,177 @@ describe('Тестирование_работы_страницы_"список"'
     });
   });
 
-  // it(
-  //   'должен отрисоваться дефолтный список',
-  //   { env: { firstVal: '33', secondVal: '5', thirdVal: '10', fourthVal: '7' } },
-  //   () => {
-  //     cy.get('li')
-  //       .each(($el, idx) => {
-  //         cy.wrap($el).within(() => {
-  //           if (idx === 0) {
-  //             cy.get('[class*=circle_head]').should('have.text', 'head');
-  //             cy.get('[class*=circle_letter]').should(
-  //               'have.text',
-  //               `${Cypress.env('firstVal')}`
-  //             );
-  //             cy.get('[class*=circle_index]').should('have.text', `${idx}`);
-  //             cy.get('[class*=circle_tail]').should('be.empty');
-  //           }
-  //           if (idx === 1) {
-  //             cy.get('[class*=circle_head]').should('be.empty');
-  //             cy.get('[class*=circle_letter]').should(
-  //               'have.text',
-  //               `${Cypress.env('secondVal')}`
-  //             );
-  //             cy.get('[class*=circle_index]').should('have.text', `${idx}`);
-  //             cy.get('[class*=circle_tail]').should('be.empty');
-  //           }
-  //           if (idx === 2) {
-  //             cy.get('[class*=circle_head]').should('be.empty');
-  //             cy.get('[class*=circle_letter]').should(
-  //               'have.text',
-  //               `${Cypress.env('thirdVal')}`
-  //             );
-  //             cy.get('[class*=circle_index]').should('have.text', `${idx}`);
-  //             cy.get('[class*=circle_tail]').should('be.empty');
-  //           }
-  //           if (idx === 3) {
-  //             cy.get('[class*=circle_head]').should('be.empty');
-  //             cy.get('[class*=circle_letter]').should(
-  //               'have.text',
-  //               `${Cypress.env('fourthVal')}`
-  //             );
-  //             cy.get('[class*=circle_index]').should('have.text', `${idx}`);
-  //             cy.get('[class*=circle_tail]').should('have.text', 'tail');
-  //           }
-  //         });
-  //       })
-  //       .should('have.length', '4');
-  //   }
-  // );
+  it(
+    'проверка_корректности_отрисовки_дефолтного_списка',
+    { env: { first: '0', second: '34', third: '8', fourth: '1' } },
+    () => {
+      cy.get('li')
+        .each(($el, idx) => {
+          cy.wrap($el).within(() => {
+            if (idx === 0) {
+              cy.get('[class*=circle_head]').should('have.text', 'head');
+              cy.get('[class*=circle_letter]').should(
+                'have.text',
+                `${Cypress.env('first')}`
+              );
+              cy.get('[class*=circle_index]').should('have.text', `${idx}`);
+              cy.get('[class*=circle_tail]').should('be.empty');
+            }
+            if (idx === 1) {
+              cy.get('[class*=circle_head]').should('be.empty');
+              cy.get('[class*=circle_letter]').should(
+                'have.text',
+                `${Cypress.env('second')}`
+              );
+              cy.get('[class*=circle_index]').should('have.text', `${idx}`);
+              cy.get('[class*=circle_tail]').should('be.empty');
+            }
+            if (idx === 2) {
+              cy.get('[class*=circle_head]').should('be.empty');
+              cy.get('[class*=circle_letter]').should(
+                'have.text',
+                `${Cypress.env('third')}`
+              );
+              cy.get('[class*=circle_index]').should('have.text', `${idx}`);
+              cy.get('[class*=circle_tail]').should('be.empty');
+            }
+            if (idx === 3) {
+              cy.get('[class*=circle_head]').should('be.empty');
+              cy.get('[class*=circle_letter]').should(
+                'have.text',
+                `${Cypress.env('fourth')}`
+              );
+              cy.get('[class*=circle_index]').should('have.text', `${idx}`);
+              cy.get('[class*=circle_tail]').should('have.text', 'tail');
+            }
+          });
+        })
+        .should('have.length', '4');
+    }
+  );
 
-  // describe('Добавление элементов работает корректно', () => {
-  //   it(
-  //     'добавление в head',
-  //     { env: { insertedVal: '1', initLength: 4 } },
-  //     () => {
-  //       cy.clock();
-  //       cy.get('input[placeholder="Введите значение"]').type(
-  //         Cypress.env('insertedVal')
-  //       );
-  //       cy.get('button').contains('Добавить в head').parent().click();
-  //       cy.get('li')
-  //         .should('have.length', Cypress.env('initLength'))
-  //         .first()
-  //         .within(() => {
-  //           cy.get('[class*=circle_head]').within(() => {
-  //             cy.get('[class*=circle_content]').within(() => {
-  //               cy.get('[class*=circle_circle]').should('satisfy', ($el) => {
-  //                 const className = $el[0].className;
-  //                 return (
-  //                   /circle_small/.test(className) &&
-  //                   /circle_changing/.test(className)
-  //                 );
-  //               });
-  //               cy.get('[class*=circle_letter]').should(
-  //                 'have.text',
-  //                 Cypress.env('insertedVal')
-  //               );
-  //             });
-  //           });
-  //         });
+  describe('проверка_корректности_добавления_элементов', () => {
+    it(
+      'в_head',
+      { env: { addItem: '1', listLength: 4 } },
+      () => {
+        cy.clock();
+        cy.get('input[placeholder="Введите значение"]').type(
+          Cypress.env('addItem')
+        );
+        cy.get('button').contains('Добавить в head').parent().click();
+        cy.get('li')
+          .should('have.length', Cypress.env('listLength'))
+          .first()
+          .within(() => {
+            cy.get('[class*=circle_head]').within(() => {
+              cy.get('[class*=circle_content]').within(() => {
+                cy.get('[class*=circle_circle]').should('satisfy', ($el) => {
+                  const className = $el[0].className;
+                  return (
+                    /circle_small/.test(className) &&
+                    /circle_changing/.test(className)
+                  );
+                });
+                cy.get('[class*=circle_letter]').should(
+                  'have.text',
+                  Cypress.env('addItem')
+                );
+              });
+            });
+          });
 
-  //       cy.tick(1000);
+        cy.tick(1000);
 
-  //       cy.get('li')
-  //         .should('have.length', Cypress.env('initLength') + 1)
-  //         .first()
-  //         .as('firstEl')
-  //         .within(() => {
-  //           cy.get('[class*=circle_head]').should('have.text', 'head');
-  //           cy.get('[class*=circle_letter]').should(
-  //             'have.text',
-  //             Cypress.env('insertedVal')
-  //           );
-  //           cy.get('[class*=circle_circle]').should(
-  //             'have.css',
-  //             'border',
-  //             '4px solid rgb(127, 224, 81)'
-  //           );
-  //         });
+        cy.get('li')
+          .should('have.length', Cypress.env('listLength') + 1)
+          .first()
+          .as('firstEl')
+          .within(() => {
+            cy.get('[class*=circle_head]').should('have.text', 'head');
+            cy.get('[class*=circle_letter]').should(
+              'have.text',
+              Cypress.env('addItem')
+            );
+            cy.get('[class*=circle_circle]').should(
+              'have.css',
+              'border',
+              '4px solid rgb(127, 224, 81)'
+            );
+          });
 
-  //       cy.tick(1000);
+        cy.tick(1000);
 
-  //       cy.get('@firstEl').within(() => {
-  //         cy.get('[class*=circle_circle]').should(
-  //           'have.css',
-  //           'border',
-  //           '4px solid rgb(0, 50, 255)'
-  //         );
-  //       });
-  //     }
-  //   );
+        cy.get('@firstEl').within(() => {
+          cy.get('[class*=circle_circle]').should(
+            'have.css',
+            'border',
+            '4px solid rgb(0, 50, 255)'
+          );
+        });
+      }
+    );
 
-  //   it(
-  //     'добавление в tail',
-  //     { env: { insertedVal: '1', initLength: 4 } },
-  //     () => {
-  //       cy.clock();
-  //       cy.get('input[placeholder="Введите значение"]').type(
-  //         Cypress.env('insertedVal')
-  //       );
-  //       cy.get('button').contains('Добавить в tail').parent().click();
-  //       cy.get('li')
-  //         .should('have.length', Cypress.env('initLength'))
-  //         .last()
-  //         .within(() => {
-  //           cy.get('[class*=circle_head]').within(() => {
-  //             cy.get('[class*=circle_content]').within(() => {
-  //               cy.get('[class*=circle_circle]').should('satisfy', ($el) => {
-  //                 const className = $el[0].className;
-  //                 return (
-  //                   /circle_small/.test(className) &&
-  //                   /circle_changing/.test(className)
-  //                 );
-  //               });
-  //               cy.get('[class*=circle_letter]').should(
-  //                 'have.text',
-  //                 Cypress.env('insertedVal')
-  //               );
-  //             });
-  //           });
-  //         });
+    it(
+      'в_tail',
+      { env: { addItem: '79', listLength: 4 } },
+      () => {
+        cy.clock();
+        cy.get('input[placeholder="Введите значение"]').type(
+          Cypress.env('addItem')
+        );
+        cy.get('button').contains('Добавить в tail').parent().click();
+        cy.get('li')
+          .should('have.length', Cypress.env('listLength'))
+          .last()
+          .within(() => {
+            cy.get('[class*=circle_head]').within(() => {
+              cy.get('[class*=circle_content]').within(() => {
+                cy.get('[class*=circle_circle]').should('satisfy', ($el) => {
+                  const className = $el[0].className;
+                  return (
+                    /circle_small/.test(className) &&
+                    /circle_changing/.test(className)
+                  );
+                });
+                cy.get('[class*=circle_letter]').should(
+                  'have.text',
+                  Cypress.env('addItem')
+                );
+              });
+            });
+          });
 
-  //       cy.tick(1000);
+        cy.tick(1000);
 
-  //       cy.get('li')
-  //         .should('have.length', Cypress.env('initLength') + 1)
-  //         .last()
-  //         .as('lastEl')
-  //         .within(() => {
-  //           cy.get('[class*=circle_tail]').should('have.text', 'tail');
-  //           cy.get('[class*=circle_letter]').should(
-  //             'have.text',
-  //             Cypress.env('insertedVal')
-  //           );
-  //           cy.get('[class*=circle_circle]').should(
-  //             'have.css',
-  //             'border',
-  //             '4px solid rgb(127, 224, 81)'
-  //           );
-  //         });
+        cy.get('li')
+          .should('have.length', Cypress.env('listLength') + 1)
+          .last()
+          .as('lastItem')
+          .within(() => {
+            cy.get('[class*=circle_tail]').should('have.text', 'tail');
+            cy.get('[class*=circle_letter]').should(
+              'have.text',
+              Cypress.env('addItem')
+            );
+            cy.get('[class*=circle_circle]').should(
+              'have.css',
+              'border',
+              '4px solid rgb(127, 224, 81)'
+            );
+          });
 
-  //       cy.tick(1000);
+        cy.tick(1000);
 
-  //       cy.get('@lastEl').within(() => {
-  //         cy.get('[class*=circle_circle]').should(
-  //           'have.css',
-  //           'border',
-  //           '4px solid rgb(0, 50, 255)'
-  //         );
-  //       });
-  //     }
-  //   );
+        cy.get('@lastItem').within(() => {
+          cy.get('[class*=circle_circle]').should(
+            'have.css',
+            'border',
+            '4px solid rgb(0, 50, 255)'
+          );
+        });
+      }
+    );
 
   //   it(
   //     'добавление по индексу',
@@ -296,7 +296,7 @@ describe('Тестирование_работы_страницы_"список"'
   //       });
   //     }
   //   );
-  // });
+  });
 
   // describe('Удаление элементов работает корректно', () => {
   //   it('удаление из head', { env: { initLength: 4 } }, () => {
