@@ -37,6 +37,7 @@ export const ListPage: React.FC = () => {
         setList(matrix[step]);
       } else {
         clearInterval(timerId);
+        setInputValue('');
       }
     }, DELAY);
   };
@@ -59,6 +60,7 @@ export const ListPage: React.FC = () => {
         setList(matrix[step]);
       } else {
         clearInterval(timerId);
+        setInputValue('');
       }
     }, DELAY);
   };
@@ -81,6 +83,8 @@ export const ListPage: React.FC = () => {
         setList(matrix[step]);
       } else {
         clearInterval(timerId);
+        setInputValue('');
+        setInputIndex('');
       }
     }, DELAY);
   };
@@ -95,6 +99,8 @@ export const ListPage: React.FC = () => {
         setList(matrix[step]);
       } else {
         clearInterval(timerId);
+        setInputValue('');
+        setInputIndex('');
       }
     }, DELAY);
   };
@@ -114,11 +120,13 @@ export const ListPage: React.FC = () => {
           text='Добавить в head'
           linkedList='small'
           onClick={() => addToHead(inputValue)}
+          disabled={!inputValue}
         />
         <Button
           text='Добавить в tail'
           linkedList='small'
           onClick={() => addToTail(inputValue)}
+          disabled={!inputValue}
         />
         <Button
           text='Удалить из head'
@@ -142,13 +150,13 @@ export const ListPage: React.FC = () => {
           linkedList='big'
           onClick={() => addByIndex(inputValue, +inputIndex)}
           disabled={Number(inputIndex) > linkedList.current.getSizeLimit() || 
-            Number(inputIndex) > list.length}
+            Number(inputIndex) > list.length || !inputValue || !inputIndex}
         />
         <Button
           text='Удалить по индексу'
           linkedList='big'
           onClick={() => deleteByIndex(+inputIndex)}
-          disabled={Number(inputIndex) > list.length - 1 || list.length === 1}
+          disabled={Number(inputIndex) > list.length - 1 || list.length === 1 || !inputIndex}
         />
       </div>
       <ul className={`${styles['flex-wrapper']} ${styles['list-items-container']} ${styles['list']}`}>

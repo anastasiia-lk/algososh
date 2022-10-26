@@ -1,4 +1,4 @@
-describe('Страница "Очередь"', () => {
+describe('Тестирование_работы_страницы_"очередь"', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/queue');
   });

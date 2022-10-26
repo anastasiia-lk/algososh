@@ -300,7 +300,7 @@ export function getDeleteByIndexMatrix<T extends string>(
 
   for (let i = 0; i <= index; i++) {
     const step = list.map((el, idx) => {
-      if (idx === i) {
+      if (idx <= i) {
         return {
           ...el,
           state: ElementStates.Changing,
