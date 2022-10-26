@@ -1,0 +1,19 @@
+.list {
+  list-style-type: none;
+}
+
+.flex-wrapper {
+  display: flex;
+}
+
+.container {
+  max-width: 522px;
+  gap: 12px;
+  margin: 0 auto 120px;
+}
+
+.letters-wrapper {
+  gap: 16px;
+  margin: 0 auto;
+  justify-content: center;
+}
