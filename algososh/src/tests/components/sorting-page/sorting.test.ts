@@ -1,6 +1,6 @@
-import { Direction } from '../../types/direction';
-import { ElementStates } from '../../types/element-states';
-import { bubbleSort, selectionSort } from '../../helpers/helpers';
+import { Direction } from '../../../types/direction';
+import { ElementStates } from '../../../types/element-states';
+import { bubbleSort, selectionSort } from '../../../helpers/helpers';
 
 describe('Тестирование_алгоритма_сортировки_выбором', () => {
   it('пустой_массив', () => {

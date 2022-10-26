@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import renderer from 'react-test-renderer';
 
-import { Button } from './button';
+import { Button } from '../../../components/ui/button/button';
 
 describe('Тестирование_компонента_Button', () => {
   it('snapshot_отрисовка_кнопки_с_текстом', () => {

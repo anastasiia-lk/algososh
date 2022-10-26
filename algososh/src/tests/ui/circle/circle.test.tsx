@@ -1,7 +1,7 @@
 import renderer from 'react-test-renderer';
 import { ElementStates } from '../../../types/element-states';
 
-import { Circle } from './circle';
+import { Circle } from '../../../components/ui/circle/circle';
 
 describe('Тестирование_компонента_Circle', () => {
   it('snapshot_отрисовка_компонента_без_буквы', () => {
