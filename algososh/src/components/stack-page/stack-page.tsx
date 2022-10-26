@@ -59,6 +59,7 @@ export const StackPage: React.FC = () => {
         <Button
           text='Добавить'
           onClick={() => addItem(inputValue)}
+          disabled={!inputValue}
         />
         <Button
           text='Удалить'
