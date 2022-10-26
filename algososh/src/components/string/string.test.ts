@@ -1,4 +1,4 @@
-import { getArrayOfStringsToPrint, getCircleState } from '../../helpers/helpers';
+import { getArrayOfStringsToPrint } from '../../helpers/helpers';
 
 describe('Тестирование_алгоритма_разворота_строки', () => {
   it('с_чётным_количеством_символов', () => {
